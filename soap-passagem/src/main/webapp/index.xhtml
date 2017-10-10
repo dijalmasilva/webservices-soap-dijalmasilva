@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Passagem</title>
+    </h:head>
+    <h:body style="text-align: center">
+        <h:panelGrid id="page">
+            <h:form>
+                <p:commandButton value="Nova passagem" action="#{passagemController.setShowSave(true)}" process="@all" update=":page"/>
+                <p:commandButton value="Passagens" action="#{passagemController.setShowList(true)}" process="@all" update=":page"/>
+            </h:form>
+            <h:form rendered="#{passagemController.showSave}" id="formNewPassagem">
+                <br/><br/>
+                <p:outputLabel value="CPF do cliente: "/>
+                <p:inputText value="#{passagemController.passagem.cpfCliente}"/>
+                <br/><br/>
+                <p:outputLabel value="Cidade de Origem: "/>
+                <p:inputText value="#{passagemController.passagem.cidadeOrigem}"/>
+                <br/><br/>
+                <p:outputLabel value="Cidade de Destino: "/>
+                <p:inputText value="#{passagemController.passagem.cidadeDestino}"/>
+                <br/><br/>
+                <p:outputLabel value="Valor da passagem: "/>
+                <p:inputText value="#{passagemController.passagem.valorDaPassagem}"/>
+                <br/><br/>
+                <p:commandButton value="Salvar" action="#{passagemController.salvarPassagem()}" process="@all" update=":page"/>
+            </h:form>
+
+            <h:form rendered="#{passagemController.showEdit}" id="editPassagem">
+                <br/><br/>
+                <p:outputLabel value="CPF do cliente: "/>
+                <p:inputText value="#{passagemController.passagem.cpfCliente}"/>
+                <br/><br/>
+                <p:outputLabel value="Cidade de Origem: "/>
+                <p:inputText value="#{passagemController.passagem.cidadeOrigem}"/>
+                <br/><br/>
+                <p:outputLabel value="Cidade de Destino: "/>
+                <p:inputText value="#{passagemController.passagem.cidadeDestino}"/>
+                <br/><br/>
+                <p:outputLabel value="Valor da passagem: "/>
+                <p:inputText value="#{passagemController.passagem.valorDaPassagem}"/>
+                <br/><br/>
+                <p:commandButton value="Salvar" action="#{passagemController.editarPassagem()}" process="@all" update=":page"/>
+            </h:form>
+
+            <h:form rendered="#{passagemController.showList}" id="listPassagens">
+                <p:dataTable var="passagem" value="#{passagemController.listar()}" id="tablePassagens" emptyMessage="Nâo há passagens cadastrados!">
+                    <p:column headerText="CPF do Cliente">
+                        <h:outputText value="#{passagem.cpfCliente}" />
+                    </p:column>
+
+                    <p:column headerText="Cidade de Origem">
+                        <h:outputText value="#{passagem.cidadeOrigem}" />
+                    </p:column>
+
+                    <p:column headerText="Cidade de Destino">
+                        <h:outputText value="#{passagem.cidadeDestino}" />
+                    </p:column>
+
+                    <p:column headerText="Valor da passagem">
+                        <h:outputText value="#{passagem.valorDaPassagem}" />
+                    </p:column>
+
+                    <p:column headerText="Editar">
+                        <p:commandButton value="Editar" action="#{passagemController.setShowEdit(true, passagem)}" process="@all" update=":page"/>
+                    </p:column>
+
+                    <p:column headerText="Deletar">
+                        <p:commandButton value="Excluir" action="#{passagemController.deletarPassagem(passagem.id)}" process="@all" update=":page"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+            <p:growl autoUpdate="true" showDetail="true" id="growl"/>
+        </h:panelGrid>
+    </h:body>
+</html>
+

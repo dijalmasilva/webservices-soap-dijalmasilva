@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Agência</title>
+    </h:head>
+    <h:body style="text-align: center">
+        <h:panelGrid id="page">
+            <h:form>
+                <p:commandButton value="Novo Pacote" action="#{pacoteController.setShowNew(true)}" process="@all" update=":page"/>
+                <p:commandButton value="Pacotes confirmados" action="#{pacoteController.setShowList(true)}" process="@all" update=":page"/>
+            </h:form>
+            <h:form rendered="#{pacoteController.showNew}" id="formNewPacote">
+                <br/><br/>
+                <p:dataTable value="#{pacoteController.listarHoteis()}" var="hotel" emptyMessage="Não há hotéis cadastrados!">
+                    <p:column headerText="Nome do hotel">
+                        <h:outputText value="#{hotel.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Descrição">
+                        <h:outputText value="#{hotel.descricao}" />
+                    </p:column>
+
+                    <p:column headerText="Rua">
+                        <h:outputText value="#{hotel.rua}" />
+                    </p:column>
+
+                    <p:column headerText="Cidade">
+                        <h:outputText value="#{hotel.cidade}" />
+                    </p:column>
+
+                    <p:column headerText="Selecionar hotel">
+                        <p:commandButton value="Selecionar" action="#{pacoteController.setHotel(hotel)}" process="@all" update=":page" />
+                    </p:column>
+                </p:dataTable>
+                <br/><br/>
+                <p:outputLabel value="Hotel selecionado: "/>
+                <p:inputText value="#{pacoteController.hotel.nome}" disabled="true"/>
+                <br/><br/>
+                <p:outputLabel value="CPF do cliente: "/>
+                <p:inputText value="#{pacoteController.cpfCliente}"/>
+                <br/><br/>
+                <p:outputLabel value="Data da reserva: "/>
+                <p:calendar value="#{pacoteController.dataDaReserva}" mindate="today"/>
+                <br/><br/>
+                <p:outputLabel value="Informações da passagem: "/>
+                <br/><br/>
+                <p:outputLabel value="Cidade de origem: "/>
+                <p:inputText value="#{pacoteController.cidadeOrigem}"/>
+                <br/><br/>
+                <p:outputLabel value="Cidade de destino: "/>
+                <p:inputText value="#{pacoteController.cidadeDestino}" disabled="true"/>
+                <br/><br/>
+                <p:outputLabel value="Valor: "/>
+                <p:inputText value="#{pacoteController.valor}"/>
+                <br/><br/>
+                <p:commandButton value="Salvar" action="#{pacoteController.salvarPacote()}" process="@all" update=":page"/>
+            </h:form>
+            <h:form rendered="#{pacoteController.showList}" id="listPacotes">
+                <p:dataTable var="pacote" value="#{pacoteController.listarPacotes()}" id="tablePacotes" emptyMessage="Nâo há pacotes cadastrados!">
+                    <p:column headerText="Hotel">
+                        <h:outputText value="#{pacote.reserva.hotel.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Data reservada">
+                        <h:outputText value="#{pacote.reserva.dataReservada}"/>
+                    </p:column>
+
+                    <p:column headerText="Valor">
+                        <h:outputText value="#{pacote.passagem.valorDaPassagem}" />
+                    </p:column>
+
+                    <p:column headerText="Cliente">
+                        <h:outputText value="#{pacote.cliente.nome}" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <p:growl autoUpdate="true" showDetail="true" id="growl"/>
+        </h:panelGrid>
+    </h:body>
+</html>
+
